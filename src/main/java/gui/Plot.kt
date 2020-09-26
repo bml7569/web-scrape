@@ -26,6 +26,28 @@ fun wordFrequency(analytics: Analytics) {
     command.execute(Joiner.on('\n').join(scriptLines))
 }
 
+fun wordCount(analytics: Analytics) {
+    val counts = analytics.countWords()
+
+    val scriptLines = mutableListOf<String>()
+
+    scriptLines.add("""
+        |import numpy as np
+        |import matplotlib.pyplot as plt
+    """.trimMargin())
+
+    scriptLines.add("x = [${commaSeparated(counts.keys)}]")
+    scriptLines.add("y = [${commaSeparated(counts.values)}]")
+
+    scriptLines.add("""
+        |plt.bar(x, y)
+        |plt.show()
+    """.trimMargin())
+
+    val command = PyCommand(PythonConfig.systemDefaultPythonConfig())
+    command.execute(Joiner.on('\n').join(scriptLines))
+}
+
 fun <T> commaSeparated(collection: Collection<T>): String {
     var result = ""
     for (item in collection) {

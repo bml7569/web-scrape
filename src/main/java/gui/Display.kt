@@ -11,7 +11,7 @@ class Display : JFrame("Article Analytics") {
     private val panel = JPanel()
     private val urlField = JTextField()
     private val frequencyButton = JButton("Word frequency")
-    private val button2 = JButton("Button 2")
+    private val countsButton = JButton("Word counts")
     private val urlButton = JButton("Read website")
 
     init {
@@ -35,13 +35,17 @@ class Display : JFrame("Article Analytics") {
         }
         add(frequencyButton, constraints)
 
-        button2.setSize(150, 40)
+        countsButton.setSize(150, 40)
+        countsButton.addActionListener {
+            checkIfUrlSubmitted()
+            wordCount(analytics!!)
+        }
         with(constraints) {
             fill = GridBagConstraints.HORIZONTAL
             gridx = 1
             gridy = 1
         }
-        add(button2, constraints)
+        add(countsButton, constraints)
 
         urlField.toolTipText = "URL"
         urlField.setSize(200, 20)
