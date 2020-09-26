@@ -13,7 +13,14 @@ public class Analytics {
     public int totalWords(){
         return this.words.length;
     }
-
+    public int characterCount(){
+        int total = 0;
+        for (String word : words){
+            total += word.length();
+        }
+        total += totalWords();
+        return total;
+    }
     public Hashtable<String, Integer> countWords(){
         if (memoizedOperations.containsKey("count.words")) return (Hashtable<String, Integer>) memoizedOperations.get("count.words");
         Hashtable<String, Integer> h = new Hashtable<String, Integer>();
@@ -28,6 +35,7 @@ public class Analytics {
         memoizedOperations.put("count.words", h);
         return h;
     }
+
     public Hashtable<String, Double> wordFrequency(){
         if (memoizedOperations.containsKey("word.frequency")) return (Hashtable<String, Double>) memoizedOperations.get("word.frequency");
         int total = this.totalWords();
