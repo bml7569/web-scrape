@@ -8,13 +8,15 @@ public class Analytics {
     private HashMap<String, Object> memoizedOperations;
     public Analytics(String t){
         memoizedOperations = new HashMap<String, Object>();
-        this.words = t.split(" ");
+        this.words = (t != null) ? t.split(" ") : null;
     }
 
     public int totalWords(){
+        if (sourceIsNull()) return -1;
         return this.words.length;
     }
     public int characterCount(){
+        if (sourceIsNull()) return -1;
         int total = 0;
         for (String word : words){
             total += word.length();
@@ -24,6 +26,7 @@ public class Analytics {
     }
 
     public HashMap<String, Double> countWords(){
+        if (sourceIsNull()) return null;
         if (memoizedOperations.containsKey("count.words")) return (HashMap<String, Double>) memoizedOperations.get("count.words");
         HashMap<String, Double> h = new HashMap<String, Double>();
         for(String w: this.words){
@@ -39,6 +42,7 @@ public class Analytics {
     }
 
     public HashMap<String, Double> wordFrequency(){
+        if (sourceIsNull()) return null;
         if (memoizedOperations.containsKey("word.frequency")) return (HashMap<String, Double>) memoizedOperations.get("word.frequency");
         int total = this.totalWords();
         HashMap<String, Double> counts = this.countWords();
@@ -51,7 +55,9 @@ public class Analytics {
         memoizedOperations.put("word.frequency", frequency);
         return sort(frequency, true);
     }
-
+    private boolean sourceIsNull(){
+        return this.words == null;
+    }
     public static HashMap<String, Double> sort(HashMap<String, Double> hm, boolean ascending){
         List<Map.Entry<String, Double> > list = new LinkedList<>(hm.entrySet());
         list.sort(Map.Entry.comparingByValue());

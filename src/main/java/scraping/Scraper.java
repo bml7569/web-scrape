@@ -16,13 +16,7 @@ public class Scraper {
     private Document content;
 
     public Scraper(String url) {
-        try {
-            this.url = checkURL(url);
-            this.content = read();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        this.url = checkURL(url);
     }
     private String checkURL(String url){
         try{
@@ -57,8 +51,8 @@ public class Scraper {
         return content.wholeText();
     }
 
-    private Document read() throws IOException {
-        return Jsoup.connect(this.url).get();
+    public void read() throws IOException {
+        this.content = Jsoup.connect(this.url).get();
     }
     private String reconstruct(Elements paragraphs){
         StringBuilder builder = new StringBuilder();
