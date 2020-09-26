@@ -1,6 +1,9 @@
 package analytics;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 
 public class Analytics {
     private String[] words;
@@ -13,14 +16,7 @@ public class Analytics {
     public int totalWords(){
         return this.words.length;
     }
-    public int characterCount(){
-        int total = 0;
-        for (String word : words){
-            total += word.length();
-        }
-        total += totalWords();
-        return total;
-    }
+
     public Hashtable<String, Integer> countWords(){
         if (memoizedOperations.containsKey("count.words")) return (Hashtable<String, Integer>) memoizedOperations.get("count.words");
         Hashtable<String, Integer> h = new Hashtable<String, Integer>();
@@ -36,18 +32,22 @@ public class Analytics {
         return h;
     }
 
-    public Hashtable<String, Double> wordFrequency(){
-        if (memoizedOperations.containsKey("word.frequency")) return (Hashtable<String, Double>) memoizedOperations.get("word.frequency");
-        int total = this.totalWords();
-        Hashtable<String, Integer> counts = this.countWords();
-        Hashtable<String, Double> frequency = new Hashtable<String, Double>();
-        for (String key : counts.keySet()){
-            int count = counts.get(key);
-            double freq = count / (total * 1.0);
-            frequency.put(key, freq);
+    //true for descending, false for ascending
+    public Hashtable<String, Integer> sort(Hashtable<String, Integer> h, boolean order){
+        List<Integer> list = new ArrayList<Integer>(h.values());
+        if(order){
+            Collections.sort(list, Collections.reverseOrder());
+        }else{
+            Collections.sort(list);
         }
-        memoizedOperations.put("word.frequency", frequency);
-        return frequency;
     }
+
+
+
+    public String mostCommon(){
+        Hashtable<String, Integer> h = countWords();
+
+    }
+
 }
 
