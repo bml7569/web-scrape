@@ -1,17 +1,18 @@
 package gui
 
+import analytics.Analytics
+import scraping.Scraper
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
-import javax.swing.JButton
-import javax.swing.JFrame
-import javax.swing.JPanel
-import javax.swing.JTextField
+import javax.swing.*
 
 class Display : JFrame("Article Analytics") {
+    private var analytics: Analytics? = null
     private val panel = JPanel()
     private val urlField = JTextField()
     private val frequencyButton = JButton("Word frequency")
     private val button2 = JButton("Button 2")
+    private val urlButton = JButton("Read website")
 
     init {
         setSize(500, 400)
@@ -23,7 +24,10 @@ class Display : JFrame("Article Analytics") {
         val constraints = GridBagConstraints()
 
         frequencyButton.setSize(150, 40)
-        frequencyButton.addActionListener { frequency() }
+        frequencyButton.addActionListener {
+            checkIfUrlSubmitted()
+            wordFrequency()
+        }
         with(constraints) {
             fill = GridBagConstraints.HORIZONTAL
             weightx = 0.5
@@ -52,12 +56,25 @@ class Display : JFrame("Article Analytics") {
         }
         add(urlField, constraints)
 
+        urlButton.setSize(150, 40)
+        urlButton.addActionListener { urlSubmitted() }
+
         pack()
         isVisible = true
     }
 
-    private fun frequency() {
+    private fun urlSubmitted() {
+        val scraper = Scraper(urlField.text)
+        analytics = Analytics(scraper.asText)
 
+        JOptionPane.showMessageDialog(this, "Page successfully scraped")
+    }
+
+    private fun checkIfUrlSubmitted() {
+        if (analytics == null) {
+            JOptionPane.showMessageDialog(this, "Please enter a URL",
+                    "Message", JOptionPane.WARNING_MESSAGE)
+        }
     }
 }
 
