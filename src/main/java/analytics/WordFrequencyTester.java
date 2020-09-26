@@ -2,6 +2,7 @@ package analytics;
 
 import scraping.Scraper;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 
 public class WordFrequencyTester {
@@ -11,7 +12,7 @@ public class WordFrequencyTester {
         Analytics analytics = new Analytics(scraper.getArticle());
         System.out.println("Total Words: " + analytics.totalWords());
         System.out.println("Word Frequencies: ");
-        Hashtable<String, Double> table = analytics.wordFrequency();
+        HashMap<String, Double> table = analytics.wordFrequency();
         for (String key : table.keySet()){
             System.out.println("Word: " + key + ", Frequency: " + table.get(key));
         }
