@@ -53,7 +53,6 @@ public class Analytics {
     }
 
     public static HashMap<String, Double> sort(HashMap<String, Double> hm, boolean ascending){
-
         List<Map.Entry<String, Double> > list = new LinkedList<>(hm.entrySet());
         list.sort(Map.Entry.comparingByValue());
         if (ascending) Collections.reverse(list);

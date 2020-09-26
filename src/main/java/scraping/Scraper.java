@@ -17,18 +17,34 @@ public class Scraper {
 
     public Scraper(String url) {
         try {
-            this.url = url;
+            this.url = checkURL(url);
             this.content = read();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    private String checkURL(String url){
+        try{
+            return new URL(url).toString();
+        } catch (MalformedURLException e) {
+            return null;
+        }
+    }
+    public boolean goodURL(){
+        return url != null;
+    }
     public String getArticle(){
-        Element article = content.select("article").first();
-        article.select("a").remove();
-        Elements paragraphs = article.select("p").remove();
-        return reconstruct(paragraphs);
+        Elements articles = content.select("article");
+        if (articles != null && articles.size() >= 1){
+            Element article = articles.first();
+            article.select("a").remove();
+            Elements paragraphs = article.select("p").remove();
+            return reconstruct(paragraphs);
+        } else {
+            return null;
+        }
+
     }
     private String clean(String input){
         return input.replaceAll("[^a-zA-Z\\s]", "");
