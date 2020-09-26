@@ -63,5 +63,12 @@ public class Analytics {
         }
         return temp;
     }
+
+    public String mostCommon(){
+        HashMap<String, Double> counts = this.countWords();
+        HashMap<String, Double> sorted = sort(counts, false);
+        Map.Entry<String,Double> entry = sorted.entrySet().iterator().next();
+        return entry.getKey();
+    }
 }
 
