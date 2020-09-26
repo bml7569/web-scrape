@@ -1,6 +1,6 @@
 package analytics;
 
-import java.util.HashMap;
+import java.util.*;
 
 
 public class Analytics {
@@ -22,6 +22,7 @@ public class Analytics {
         total += totalWords();
         return total;
     }
+
     public HashMap<String, Integer> countWords(){
         if (memoizedOperations.containsKey("count.words")) return (HashMap<String, Integer>) memoizedOperations.get("count.words");
         HashMap<String, Integer> h = new HashMap<String, Integer>();
@@ -49,6 +50,25 @@ public class Analytics {
         }
         memoizedOperations.put("word.frequency", frequency);
         return frequency;
+    }
+
+    public static HashMap<String, Integer> sortWords(HashMap<String, Integer> hm){
+
+        List<Map.Entry<String, Integer> > list = new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
+
+        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2)
+            {
+                return (o1.getValue()).compareTo(o2.getValue());
+            }
+        });
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
     }
 }
 
