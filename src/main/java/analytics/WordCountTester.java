@@ -11,7 +11,7 @@ public class WordCountTester {
         Scraper scraper = new Scraper(test_url);
         Analytics analytics = new Analytics(scraper.getArticle());
         System.out.println("Word Frequencies: ");
-        HashMap<String, Integer> table = analytics.countWords();
+        HashMap<String, Double> table = analytics.countWords();
         for (String key : table.keySet()){
             System.out.println("Word: " + key + ", Count: " + table.get(key));
         }
