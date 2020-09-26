@@ -10,7 +10,6 @@ public class Analytics {
         memoizedOperations = new HashMap<String, Object>();
         this.words = (t != null) ? t.split(" ") : null;
     }
-
     public int totalWords(){
         if (sourceIsNull()) return -1;
         return this.words.length;

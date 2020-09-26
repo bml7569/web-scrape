@@ -41,7 +41,7 @@ public class Scraper {
 
     }
     private String clean(String input){
-        return input.replaceAll("[^a-zA-Z\\s]", "");
+        return input.replace("\n", "").replace("\t","").replaceAll("[^a-zA-Z\\s]", "");
     }
     public String getRawHTML() {
         return content.html();
