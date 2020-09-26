@@ -26,15 +26,12 @@ public class Scraper {
     }
     public String getArticle(){
         Element article = content.select("article").first();
-        Elements ele = article.select("p").remove();
-        for (Element e : ele){
-            System.out.println(e.text());
-        }
-        System.out.println(clean(article.text()));
-        return null;
+        article.select("a").remove();
+        Elements paragraphs = article.select("p").remove();
+        return reconstruct(paragraphs);
     }
     private String clean(String input){
-        return input.replaceAll("[^a-zA-Z0-9]", "");
+        return input.replaceAll("[^a-zA-Z0-9\\s]", "");
     }
     public String getRawHTML() {
         return content.html();
@@ -46,5 +43,13 @@ public class Scraper {
 
     private Document read() throws IOException {
         return Jsoup.connect(this.url).get();
+    }
+    private String reconstruct(Elements paragraphs){
+        StringBuilder builder = new StringBuilder();
+        for (Element paragraph : paragraphs){
+            builder.append(clean(paragraph.text().toLowerCase()) + " ");
+        }
+        return builder.toString();
+
     }
 }
