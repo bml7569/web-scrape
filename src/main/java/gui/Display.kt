@@ -26,11 +26,10 @@ class Display : JFrame("Article Analytics") {
         frequencyButton.setSize(150, 40)
         frequencyButton.addActionListener {
             checkIfUrlSubmitted()
-            wordFrequency()
+            wordFrequency(analytics!!)
         }
         with(constraints) {
             fill = GridBagConstraints.HORIZONTAL
-            weightx = 0.5
             gridx = 0
             gridy = 1
         }
@@ -39,7 +38,6 @@ class Display : JFrame("Article Analytics") {
         button2.setSize(150, 40)
         with(constraints) {
             fill = GridBagConstraints.HORIZONTAL
-            weightx = 0.5
             gridx = 1
             gridy = 1
         }
@@ -49,8 +47,6 @@ class Display : JFrame("Article Analytics") {
         urlField.setSize(200, 20)
         with(constraints) {
             fill = GridBagConstraints.HORIZONTAL
-            weightx = 0.0
-            gridwidth = 2
             gridx = 0
             gridy = 0
         }
@@ -58,6 +54,12 @@ class Display : JFrame("Article Analytics") {
 
         urlButton.setSize(150, 40)
         urlButton.addActionListener { urlSubmitted() }
+        with(constraints) {
+            fill = GridBagConstraints.HORIZONTAL
+            gridx = 1
+            gridy = 0
+        }
+        add(urlButton, constraints)
 
         pack()
         isVisible = true
@@ -65,8 +67,14 @@ class Display : JFrame("Article Analytics") {
 
     private fun urlSubmitted() {
         val scraper = Scraper(urlField.text)
-        analytics = Analytics(scraper.asText)
+        if (!scraper.goodURL()) {
+            JOptionPane.showMessageDialog(this, "Invalid URL",
+                    "Message", JOptionPane.WARNING_MESSAGE)
+            return
+        }
+        scraper.read()
 
+        analytics = Analytics(scraper.article)
         JOptionPane.showMessageDialog(this, "Page successfully scraped")
     }
 
