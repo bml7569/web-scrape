@@ -23,15 +23,15 @@ public class Analytics {
         return total;
     }
 
-    public HashMap<String, Integer> countWords(){
-        if (memoizedOperations.containsKey("count.words")) return (HashMap<String, Integer>) memoizedOperations.get("count.words");
-        HashMap<String, Integer> h = new HashMap<String, Integer>();
+    public HashMap<String, Double> countWords(){
+        if (memoizedOperations.containsKey("count.words")) return (HashMap<String, Double>) memoizedOperations.get("count.words");
+        HashMap<String, Double> h = new HashMap<String, Double>();
         for(String w: this.words){
             if (h.containsKey(w)){
-                int i = h.get(w) +1;
+                double i = h.get(w) +1;
                 h.put(w, i);
             }else{
-                h.put(w, 1);
+                h.put(w, 1.0);
             }
         }
         memoizedOperations.put("count.words", h);
@@ -41,18 +41,18 @@ public class Analytics {
     public HashMap<String, Double> wordFrequency(){
         if (memoizedOperations.containsKey("word.frequency")) return (HashMap<String, Double>) memoizedOperations.get("word.frequency");
         int total = this.totalWords();
-        HashMap<String, Integer> counts = this.countWords();
+        HashMap<String, Double> counts = this.countWords();
         HashMap<String, Double> frequency = new HashMap<String, Double>();
         for (String key : counts.keySet()){
-            int count = counts.get(key);
-            double freq = count / (total * 1.0);
+            double count = counts.get(key);
+            double freq = count / total;
             frequency.put(key, freq);
         }
         memoizedOperations.put("word.frequency", frequency);
         return frequency;
     }
 
-    public static HashMap<String, Integer> sortWords(HashMap<String, Integer> hm){
+    public static HashMap<String, Integer> sort(HashMap<String, Integer> hm){
 
         List<Map.Entry<String, Integer> > list = new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
 
