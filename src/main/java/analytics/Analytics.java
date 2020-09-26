@@ -28,6 +28,18 @@ public class Analytics {
         memoizedOperations.put("count.words", h);
         return h;
     }
-
+    public Hashtable<String, Double> wordFrequency(){
+        if (memoizedOperations.containsKey("word.frequency")) return (Hashtable<String, Double>) memoizedOperations.get("word.frequency");
+        int total = this.totalWords();
+        Hashtable<String, Integer> counts = this.countWords();
+        Hashtable<String, Double> frequency = new Hashtable<String, Double>();
+        for (String key : counts.keySet()){
+            int count = counts.get(key);
+            double freq = count / (total * 1.0);
+            frequency.put(key, freq);
+        }
+        memoizedOperations.put("word.frequency", frequency);
+        return frequency;
+    }
 }
 

@@ -31,7 +31,7 @@ public class Scraper {
         return reconstruct(paragraphs);
     }
     private String clean(String input){
-        return input.replaceAll("[^a-zA-Z0-9\\s]", "");
+        return input.replaceAll("[^a-zA-Z\\s]", "");
     }
     public String getRawHTML() {
         return content.html();
