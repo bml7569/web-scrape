@@ -49,23 +49,17 @@ public class Analytics {
             frequency.put(key, freq);
         }
         memoizedOperations.put("word.frequency", frequency);
-        return frequency;
+        return sort(frequency, true);
     }
 
-    public static HashMap<String, Integer> sort(HashMap<String, Integer> hm){
+    public static HashMap<String, Double> sort(HashMap<String, Double> hm, boolean ascending){
 
-        List<Map.Entry<String, Integer> > list = new LinkedList<Map.Entry<String, Integer> >(hm.entrySet());
-
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer> >() {
-            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2)
-            {
-                return (o1.getValue()).compareTo(o2.getValue());
-            }
-        });
-
+        List<Map.Entry<String, Double> > list = new LinkedList<>(hm.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+        if (ascending) Collections.reverse(list);
         // put data from sorted list to hashmap
-        HashMap<String, Integer> temp = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> aa : list) {
+        HashMap<String, Double> temp = new LinkedHashMap<>();
+        for (Map.Entry<String, Double> aa : list) {
             temp.put(aa.getKey(), aa.getValue());
         }
         return temp;
